@@ -5,55 +5,78 @@
 //divides array in the halves and keep doing so until each element of the array is sorted by default (arrays of one element); 
 //highly parallelizable; 
 
-void mergeSort(int a[], int length);
-void mergeSortRecursion(int a[], int l, int r); //the purpose of this function is the break the arrays in halves, l stands for left and r for right; 
-// void mergeSortedArrays 
+void mergeSort(int a[], int l, int r); 
+void merge(int a[], int l, int m, int r);
 
 int main() {
 	
-	int array[] = {2, 4, 0, 1, 7, 8, 3, 9, 5, 6}; 
-	int length = 10; //for the sake of simplicity; 
+	int array[] = {1, 7, 10, 11, 3, 6, 5}; 
+	int length = sizeof(array) / sizeof(array[0]); 
 	
-	mergeSort(array, length); 
+	mergeSort(array, 0, length - 1); 
+	
+	for(int i = 0; i < length; i++) printf("%d ", array[i]);
 	
 	return 0; 
 }
 
-void mergeSort(int a[], int length) {
-	
-	mergeSortRecursion(a, 0, length - 1); //this line is passing the full og array for the beginning of the sorting processs; 
-	
+void mergeSort(int a[], int l, int r){ 
+
+	if(l < r){
+		int m = l + (r - l) / 2; 
+		 
+		mergeSort(a, l, m); 
+		mergeSort(a, m + 1, r); 
+		
+		merge(a, l, m, r);
+	}
 }
 
-void mergeSortRecursion(int a[], int l, int r){ //again takes the left-most and right most index and haves; 
-	
-	int m = l + (r - l) / 2; //finding the middle = the left most index + the righ-most - the left-most defines the total length of the array / 2 = the middle; 
-	
-	mergeSortRecursion(a, l, m); //passing the array the left-most until the middle of the array; 
-	mergeSortRecursion(a, m + 1, r); //passing from the middle + 1 index unil the right-most;  
-}
 
-
-void mergeSortedArrays(int a[], int l, int m, int r){
+void merge(int a[], int l, int m, int r){
 	
-	int left_length = m - l + 1; //because of 0 index it should add +1 to count the correct length; 
-	int right_length = r - m; //the right length is all the array - 1 index (which will be sorted by default) - the middle index legth; 
+	int i, j, k;  
+	int n1 = m - l + 1;  
+	int n2 = r - m;  
 	
-	//storing the subarrays into temporary arrays based on the length acquired by the last step: 
+	int temp_left[n1]; 
+	int temp_right[n2]; 
 	
-	int temp_left[left_length]; 
-	int temp_right[right_length];
 	
-	//from here on: we will trasverse the og array using for loops in order to fill the temporary arrays with our halves of og array; 
+	for(i = 0; i < n1; i++) temp_left[i] = a[l + i]; 
 	
-	int i, j, k; //to control the for loops 
+	for(j = 0; j < n2; j++) temp_right[j] = a[m + 1 + j]; 
+		
+	i = 0;
+	j = 0;
+	k = l;
 	
-	for(int i = 0; i < left_length; i++)
-		temp_left[i] = a[l + i]; //each index of a starting in the left side + the index of the loop will be passed to the temp_left array;
-		//this means we are basically copying the og array to the temp_left until it fills accordingly to the length calculated in the beginning of the method; 
+	while(i < n1 && j < n2){
+		
+		if(temp_left[i] <= temp_right[j]){
+			a[k] = temp_left[i];
+			i++;
+		} else {
+			a[k] = temp_right[j];
+			j++;
+		}
+		k++;	
+	}
 	
-	for(int i = 0; i < right_length; i ++)
-		temp_right[i] = a[m + 1 + i]; //in this line we doing basically the same in the right portion but starting from the middle + 1; 
+	while(i < n1){
+		a[k] = temp_left[i];
+		i++;
+		k++;
+	}
+	
+	while(j < n2){
+		a[k] = temp_right[j];
+		j++;
+		k++;	
+	}
+	
+	
+	
 	
 	
 }
