@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+// main problems of this approach: very expensive big O of n² 
+
 typedef struct Job {
 	char id;
 	int dead;
@@ -70,6 +73,15 @@ int main(){
 		},
 		{
 			'e', 3, 15 
+		},
+		{
+			'f', 3, 101
+		},
+		{
+			'g', 2, 99
+		},
+		{
+			'j', 2, 98
 		}
 	};
 	
