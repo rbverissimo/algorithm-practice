@@ -5,9 +5,10 @@
 
 void naive_sort(int arr[], int n, int i){
 	
+	
 	if(i > n) return;
 	
-	if(arr[i+1] < n && arr[i] < arr[i+1]){
+	if(i+1 < n && arr[i] < arr[i+1]){
 		int temp = arr[i+1];
 		arr[i+1] = arr[i];
 		arr[i] = temp;
