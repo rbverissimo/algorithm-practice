@@ -50,6 +50,9 @@ int main(){
 	
 	
 	DisjSet obj(5);
+	obj.makeSet();
+	obj.Union(0, 2);
+	obj.Union(1, 5);
 	
 	printf("%d ", obj.find(5));
 	
