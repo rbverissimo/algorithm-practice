@@ -22,7 +22,7 @@ void heapify(int arr[], int n, int i){
 
 void heap_sort(int arr[], int n){
 	
-	for(int i = n / 2 - 1; i >= 0; i--) heapify(arr, n, i);
+	for(int i = n / 2 - 1; i >= 0; i--) heapify(arr, n, i); // this part of the execution will pre-sort the whole thing
 	
 	for(int i = n - 1; i > 0; i--){
 		int temp = arr[0];
@@ -30,7 +30,7 @@ void heap_sort(int arr[], int n){
 		arr[i] = temp;
 	
 		heapify(arr, i, 0);
-	}
+	} 
 	
 	
 }
