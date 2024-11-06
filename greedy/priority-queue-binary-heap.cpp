@@ -65,11 +65,30 @@ int getMax(){
 
 void remove(int i){
 	
+	H[i] = getMax() + 1;
+	shiftUp(i);
+	extractMax();
+	
 }
 
 
 int main(){
 	
+	
+	insert(45);
+	insert(20);
+	insert(14);
+	insert(12);
+	insert (31);
+	
+	int i = 0;
+	
+	
+	cout << "Priority Queue: ";
+	while(i <= size){
+		cout << H[i] << " ";
+		i++;
+	}	
 	
 	return 0;
 }
