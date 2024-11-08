@@ -14,6 +14,13 @@ void swap(int* a, int* b) {
 	*b = temp;
 }
 
+int peek(PriorityQueue* q){
+	if(!q->size) {
+		printf("The queue is empty! ");
+		return -1;
+	}
+	return q->items[0]; 
+}
 
 void heapifyUp(PriorityQueue* q, int index){
 	
@@ -22,6 +29,12 @@ void heapifyUp(PriorityQueue* q, int index){
 		heapifyUp(q, (index - 1) / 2);
 	}
 	
+}
+
+void heapifyDown(PriorityQueue *q, int index){
+	int smallest = index;
+	int left = 2 * index + 1;
+	int right = 2 * index + 2;
 }
 
 void enqueue(PriorityQueue* q, int value){
@@ -35,6 +48,14 @@ void enqueue(PriorityQueue* q, int value){
 	heapifyUp(q, q->size-1);
 }
 
+void dequeue(PriorityQueue* q){
+
+	int item = peek(q);
+	if(item == -1) return;
+	q->items[0] = q->items[--q->size];	
+}
+
+
 void print_queue(PriorityQueue* q){
 	
 	for(int i = 0; i < q->size; i++) printf("%d ", q->items[i]);
@@ -47,6 +68,9 @@ int main(){
 	enqueue(&q, 4);
 	enqueue(&q, 10);
 	enqueue(&q, 1);
+	enqueue(&q, 2);
+	
+	//dequeue(&q);
 	
 	print_queue(&q);
 	
