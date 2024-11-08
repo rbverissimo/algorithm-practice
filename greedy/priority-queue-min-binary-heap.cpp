@@ -8,6 +8,22 @@ typedef struct {
 	int size;	
 } PriorityQueue;
 
+void swap(int* a, int* b) {
+	int temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+
+void heapifyUp(PriorityQueue* q, int index){
+	
+	if(index && q->items[(index - 1) / 2] > q->items[index]){
+		swap(&q->items[(index - 1) / 2], &q->items[index]);
+		heapifyUp(q, (index - 1) / 2);
+	}
+	
+}
+
 void enqueue(PriorityQueue* q, int value){
 	
 	if(q->size == MAX){
@@ -16,6 +32,7 @@ void enqueue(PriorityQueue* q, int value){
 	}
 	
 	q->items[q->size++] = value;
+	heapifyUp(q, q->size-1);
 }
 
 void print_queue(PriorityQueue* q){
@@ -29,7 +46,7 @@ int main(){
 	
 	enqueue(&q, 4);
 	enqueue(&q, 10);
-	enqueue(&q, 3);
+	enqueue(&q, 1);
 	
 	print_queue(&q);
 	
