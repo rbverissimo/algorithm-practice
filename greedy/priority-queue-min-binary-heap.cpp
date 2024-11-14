@@ -35,6 +35,15 @@ void heapifyDown(PriorityQueue *q, int index){
 	int smallest = index;
 	int left = 2 * index + 1;
 	int right = 2 * index + 2;
+	
+	if(left < q->size && q->items[left] < q->items[smallest]) smallest = left;
+	
+	if(right < q->size && q->items[right] < q->items[smallest]) smallest = right;
+	
+	if(smallest != index){
+		swap(&q->items[index], &q->items[smallest]);
+		heapifyDown(q, smallest);
+	}
 }
 
 void enqueue(PriorityQueue* q, int value){
@@ -48,11 +57,13 @@ void enqueue(PriorityQueue* q, int value){
 	heapifyUp(q, q->size-1);
 }
 
-void dequeue(PriorityQueue* q){
+int dequeue(PriorityQueue* q){
 
 	int item = peek(q);
-	if(item == -1) return;
+	if(item == -1) return item;
 	q->items[0] = q->items[--q->size];	
+	heapifyDown(q, 0);
+	return item;
 }
 
 
@@ -69,9 +80,13 @@ int main(){
 	enqueue(&q, 10);
 	enqueue(&q, 1);
 	enqueue(&q, 2);
+	enqueue(&q, 5);
 	
-	//dequeue(&q);
+	print_queue(&q);
 	
+	dequeue(&q);
+	
+	printf("\nDequeued: ");
 	print_queue(&q);
 	
 	return 0;
