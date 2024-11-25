@@ -89,7 +89,27 @@ void insertMinHeap(struct MinHeap* mh, struct MinHeapNode* node){
 	mh->array[i] = node;
 }
 
+void buildMinHeap(struct MinHeap* minHeap){
+	int n = minHeap->size - 1;
+	int i;
+	for(i = (n - 1) / 2; i >=0; i--) minHeapify(minHeap, i);
+}
+
+
+void printArr(int arr[], int n){
+	for(int i = 0; i < n; ++i) printf("%d", arr[i]);
+	
+	printf("\n");
+	
+}
 
 int main(){
+	
+	char arr[] = { 'a', 'b', 'c', 'd', 'e', 'f' };
+	int freq[] = { 5, 9, 12, 13, 16, 45 };
+	
+	int size = sizeof(arr)/sizeof(arr[0]);
+	
 	return 0;
 }
+
