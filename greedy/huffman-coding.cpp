@@ -7,7 +7,6 @@
 struct MinHeapNode {
 	char data;
 	unsigned freq;
-	
 	struct MinHeapNode *left, *right;
 };
 
@@ -70,6 +69,7 @@ int isSizeOne(struct MinHeap* mh){
 struct MinHeapNode* extractMin(struct MinHeap* mh){
 	
 	struct MinHeapNode* temp = mh->array[0];
+	mh->array[0] = mh->array[mh->size - 1];
 	--mh->size;
 	minHeapify(mh, 0);
 	return temp; 
@@ -91,8 +91,7 @@ void insertMinHeap(struct MinHeap* mh, struct MinHeapNode* node){
 
 void buildMinHeap(struct MinHeap* minHeap){
 	int n = minHeap->size - 1;
-	int i;
-	for(i = (n - 1) / 2; i >=0; i--) minHeapify(minHeap, i);
+	for(int i = (n - 1) / 2; i >=0; --i) minHeapify(minHeap, i);
 }
 
 
@@ -103,12 +102,81 @@ void printArr(int arr[], int n){
 	
 }
 
+int isLeafNode(struct MinHeapNode* root){
+	return !(root->left) && !(root->right);
+}
+void printCodes(struct MinHeapNode* root, int arr[], int top){
+	
+	if(root->left){
+		arr[top] = 0;
+		printCodes(root->left, arr, top + 1);
+	}
+	
+	if(root->right){
+		arr[top] = 1;
+		printCodes(root->right, arr, top + 1);
+	}
+	
+	if(isLeafNode(root)){
+		printf("%c: ", root->data);
+		printArr(arr, top);
+	}
+	
+}
+
+struct MinHeap* assembleMinHeap(char data[], int freq[], int size){
+	
+	struct MinHeap* mh = createMinHeap(size);
+	
+	for(int i = 0; i < size; i++) mh->array[i] = newNode(data[i], freq[i]);
+	
+	mh->size = size;
+	buildMinHeap(mh);
+	return mh;
+	
+}
+
+struct MinHeapNode* buildHuffmanTree(char data[], int freq[], int size){
+	
+	struct MinHeapNode *left, *right, *top;
+	
+	struct MinHeap* minHeap = assembleMinHeap(data, freq, size);
+	
+	
+	while(!isSizeOne(minHeap)){
+		
+		left = extractMin(minHeap);
+		right = extractMin(minHeap);
+		
+		top = newNode('$', left->freq + right->freq);
+		top->left = left;
+		top->right = right;
+		
+		insertMinHeap(minHeap, top);
+		
+	}
+	
+	
+	return extractMin(minHeap);
+	
+}
+
+void HuffmanCodes(char data[], int freq[], int size){
+	
+	struct MinHeapNode* root = buildHuffmanTree(data, freq, size);
+	int arr[MAX_TREE_HT], top = 0;
+	printCodes(root, arr, top);
+	
+}
+
 int main(){
 	
 	char arr[] = { 'a', 'b', 'c', 'd', 'e', 'f' };
 	int freq[] = { 5, 9, 12, 13, 16, 45 };
 	
 	int size = sizeof(arr)/sizeof(arr[0]);
+	
+	HuffmanCodes(arr, freq, size);
 	
 	return 0;
 }
