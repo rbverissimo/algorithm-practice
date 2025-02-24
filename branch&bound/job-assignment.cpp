@@ -53,6 +53,14 @@ int calculateCost(int costMatrix[N][N], int x, int y, bool assigned[]){
 }
 
 
+void printAssignments(Node* min){
+	
+	if(min->parent==NULL) return;
+	
+	printAssignments(min->parent);
+	std::cout << "Assign worker " << char(min->workerID + 'A')
+		<< "to job " << min->jobID << std::endl;
+}
 
 
 int main(){
