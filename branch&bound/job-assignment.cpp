@@ -1,5 +1,6 @@
 #include<iostream>
 #include<queue>
+#include<limits.h>
 
 #define N 4
 
@@ -28,7 +29,47 @@ struct comp {
 	}	
 };
 
+int calculateCost(int costMatrix[N][N], int x, int y, bool assigned[]){
+	int cost = 0;
+	bool available[N] = {true};
+	
+	for(int i = x + 1; i < N; i++){
+		int min = INT_MAX, minIndex = -1;
+		
+		for(int j = 0; j < N; j++){
+			
+			if(!assigned[j] && available[j] && costMatrix[i][j] < min)
+			{
+				minIndex = j;
+				min = costMatrix[i][j];
+			} 
+		}
+		
+		cost += min;
+		available[minIndex] = false;
+	}
+	
+	return cost;
+}
+
+
+
 
 int main(){
+	
+	int costMatrix[N][N] = {
+		{
+			9, 2, 7, 8
+		},
+		{
+			6, 4, 3, 7
+		},
+		{
+			5, 8, 1, 8
+		},
+		{
+			7, 6, 9 , 4
+		}
+	};
 	return 0;
 }
