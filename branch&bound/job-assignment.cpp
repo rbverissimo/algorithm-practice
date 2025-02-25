@@ -58,7 +58,7 @@ void printAssignments(Node* min){
 	
 	printAssignments(min->parent);
 	std::cout << "Assign worker " << char(min->workerID + 'A')
-		<< "to job " << min->jobID << std::endl;
+		<< " to job " << min->jobID << std::endl;
 }
 
 int findMinCost(int costMatrix[N][N]){
@@ -116,5 +116,9 @@ int main(){
 			7, 6, 9 , 4
 		}
 	};
+	
+	int minCost = findMinCost(costMatrix);
+	
+	std::cout << "\nOptimal cost is " << minCost;
 	return 0;
 }
