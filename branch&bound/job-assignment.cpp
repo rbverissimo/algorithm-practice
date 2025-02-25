@@ -52,7 +52,6 @@ int calculateCost(int costMatrix[N][N], int x, int y, bool assigned[]){
 	return cost;
 }
 
-
 void printAssignments(Node* min){
 	
 	if(min->parent==NULL) return;
@@ -60,6 +59,44 @@ void printAssignments(Node* min){
 	printAssignments(min->parent);
 	std::cout << "Assign worker " << char(min->workerID + 'A')
 		<< "to job " << min->jobID << std::endl;
+}
+
+int findMinCost(int costMatrix[N][N]){
+	
+	
+	std::priority_queue<Node*, std::vector<Node*>, comp> pq;
+	bool assigned[N] = {false};
+	Node* root = newNode(-1, -1, assigned, NULL);
+	root->pathCost = root->cost = 0;
+	root->workerID = -1;
+	
+	pq.push(root);
+	
+	while(!pq.empty()){
+		
+		Node* min = pq.top(); //retrieve, but does not pops out of the queue;
+		
+		pq.pop();
+		
+		int i = min->workerID + 1;
+		
+		if(i == N){
+			printAssignments(min);
+			return min->cost;
+		}
+		
+		for(int j = 0; j < N; j++){
+			
+			if(!min->assigned[j]){
+				Node* child = newNode(i, j, min->assigned, min);
+				child->pathCost = min->pathCost + costMatrix[i][j];
+				child->cost = child->pathCost + calculateCost(costMatrix, i, j, child->assigned);
+				pq.push(child);
+			}
+			
+		}	
+	}
+	
 }
 
 
